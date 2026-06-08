@@ -1,0 +1,69 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+/* Pure black background and light zinc text for ultimate dark mode minimalism */
+body {
+  background-color: #000000;
+  color: #f4f4f5; /* zinc-100 */
+  font-family: var(--font-sans), sans-serif;
+  overflow-x: hidden;
+}
+
+/* Minimal thin scrollbars */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-track {
+  background: #000000;
+}
+::-webkit-scrollbar-thumb {
+  background: #27272a; /* zinc-800 */
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3f3f46; /* zinc-700 */
+}
+
+/* Clean flat panels (instead of glassmorphism) */
+.glass-panel {
+  background: #09090b; /* zinc-950 */
+  border: 1px solid #27272a; /* zinc-800 */
+}
+
+.glass-card {
+  background: #09090b;
+  border: 1px solid #27272a;
+  transition: all 0.15s ease-in-out;
+}
+
+.glass-card:hover {
+  border-color: #f4f4f5; /* Highlight border with high contrast white/zinc-100 on hover */
+}
+
+/* Flat minimalist dark input fields */
+.glass-input {
+  background: #000000;
+  border: 1px solid #27272a;
+  color: #ffffff;
+  transition: all 0.15s ease-in-out;
+}
+
+.glass-input:focus {
+  border-color: #ffffff; /* White border on focus */
+  outline: none;
+}
+
+/* Ensure no color glows are displayed */
+.glow-blur-indigo,
+.glow-blur-violet {
+  display: none !important;
+}
+
+.animate-pulse-subtle {
+  animation: none !important;
+}

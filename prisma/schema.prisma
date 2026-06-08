@@ -1,0 +1,59 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+    output   = "../generated/prisma"
+}
+
+datasource db {
+    provider = "sqlite"
+    url      = env("DATABASE_URL")
+}
+
+model Config {
+    id                 String   @id @default("default")
+    resendApiKey       String
+    geminiApiKey       String
+    anthropicApiKey    String
+    defaultSenderEmail String
+    createdAt          DateTime @default(now())
+    updatedAt          DateTime @updatedAt
+}
+
+model Tracker {
+    id            String       @id @default(uuid())
+    name          String
+    url           String
+    prompt        String
+    cronInterval        String // "EVERY_HOUR", "EVERY_6_HOURS", "DAILY"
+    aiProvider          String       @default("GEMINI") // "GEMINI" or "CLAUDE"
+    aiModel             String?
+    isActive            Boolean      @default(true)
+    keepActiveAfterMatch Boolean      @default(true)
+    lastRunStatus       String? // "SUCCESS", "FAILED", "NO_MATCH"
+    lastRunTime         DateTime?
+    createdAt           DateTime     @default(now())
+    updatedAt           DateTime     @updatedAt
+    runs          TrackerRun[]
+
+    // Optional local authentication credentials
+    loginUrl            String?
+    loginUsername       String?
+    loginPassword       String?
+    usernameSelector    String?
+    passwordSelector    String?
+    submitSelector      String?
+}
+
+model TrackerRun {
+    id               String   @id @default(uuid())
+    trackerId        String
+    tracker          Tracker  @relation(fields: [trackerId], references: [id], onDelete: Cascade)
+    runTime          DateTime @default(now())
+    status           String // "SUCCESS", "FAILED", "NO_MATCH"
+    summaryOfChanges String?
+    confidenceScore  Float?
+    errorMessage     String?
+    screenshotUrl    String?
+}
